@@ -257,7 +257,7 @@
   margin-top: 0.4rem;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 600px) {
   .app-main {
     grid-template-columns: minmax(0, 1fr);
   }
