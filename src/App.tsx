@@ -233,18 +233,21 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="app-title-group">
-          <h1>Pomodoro</h1>
-        </div>
-        <div className="cycle-indicator" aria-label="Completed focus sessions">
-          {Array.from({ length: cyclesBeforeLongBreak }).map((_, index) => {
-            const filled = index < completedFocusSessions % cyclesBeforeLongBreak
-            return (
-              <span
-                key={index}
-                className={`cycle-dot ${filled ? 'cycle-dot--filled' : ''}`}
-              />
-            )
-          })}
+          <h1>Momentum</h1>
+          <span className="app-subtitle">
+            A focused timer that structures your work into Pomodoro cycles
+          </span>
+          <div className="cycle-indicator" aria-label="Completed focus sessions">
+            {Array.from({ length: cyclesBeforeLongBreak }).map((_, index) => {
+              const filled = index < completedFocusSessions % cyclesBeforeLongBreak
+              return (
+                <span
+                  key={index}
+                  className={`cycle-dot ${filled ? 'cycle-dot--filled' : ''}`}
+                />
+              )
+            })}
+          </div>
         </div>
       </header>
 
