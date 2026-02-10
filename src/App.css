@@ -257,15 +257,11 @@
   margin-top: 0.4rem;
 }
 
-@media (max-width: 600px) {
-  .app-main {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .timer-card,
-  .metrics-card {
-    border-radius: 1.25rem;
-  }
+.app-main {
+  display: flex;
+  flex-direction: column; 
+  gap: 1.5rem;
+  align-items: stretch;
 }
 
 .timer-edit {
