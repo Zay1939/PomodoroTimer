@@ -52,12 +52,14 @@
 }
 
 .app-main {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.2fr);
   gap: 1.5rem;
+  align-items: flex-start;
 }
 
-.timer-card {
+.timer-card,
+.metrics-card {
   background: rgba(17, 24, 39, 0.85);
   border-radius: 1.5rem;
   padding: 1.75rem 1.75rem 1.5rem;
@@ -66,6 +68,19 @@
     0 18px 45px rgba(15, 23, 42, 0.65),
     0 0 0 1px rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(18px);
+}
+
+.metrics-card {
+  padding: 1.2rem 1.4rem 1.2rem;
+}
+
+.metrics-title {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.metrics-subtitle {
+  display: none;
 }
 
 .mode-switcher {
@@ -183,34 +198,74 @@
   cursor: default;
 }
 
-.focus-counter {
-  margin-top: 1.25rem;
-  padding-top: 0.85rem;
-  border-top: 1px dashed rgba(148, 163, 184, 0.4);
+.session-stats {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  flex-direction: column;
+  gap: 0.25rem;
   font-size: 0.85rem;
   color: var(--muted-foreground);
 }
 
-.focus-counter-reset {
+.metrics-card .session-stats {
+  margin: 0;
+  padding: 0;
+  border: none;
+  align-items: center;
+}
+
+.session-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.session-stat-label {
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.session-stat-value {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.session-stats-reset {
+  margin-top: 0.6rem;
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.6);
   background: transparent;
   color: var(--muted-foreground);
-  padding: 0.3rem 0.75rem;
-  font-size: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.78rem;
 }
 
-.focus-counter-reset:hover:not(:disabled) {
+.session-stats-reset:hover:not(:disabled) {
   background: rgba(15, 23, 42, 0.9);
 }
 
-.focus-counter-reset:disabled {
+.session-stats-reset:disabled {
   opacity: 0.4;
   cursor: default;
+}
+
+.session-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 800px) {
+  .app-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .timer-card,
+  .metrics-card {
+    border-radius: 1.25rem;
+  }
 }
 
 .timer-edit {
@@ -320,30 +375,4 @@
   font-size: 0.8rem;
   color: var(--muted-foreground);
   margin-top: 0.5rem;
-}
-
-@media (max-width: 800px) {
-  .app {
-    padding-inline: 1.25rem;
-  }
-
-  .app-main {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .timer-card,
-  .tips-card {
-    border-radius: 1.25rem;
-  }
-
-  .app-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .app-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35rem;
-  }
 }

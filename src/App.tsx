@@ -46,6 +46,19 @@ function formatTime(totalSeconds: number) {
     .padStart(2, '0')}`
 }
 
+function formatTotalFocus(seconds: number) {
+  const s = Math.max(0, Math.floor(seconds))
+  const hours = Math.floor(s / 3600)
+  const minutes = Math.floor((s % 3600) / 60)
+  const secs = s % 60
+
+  const hh = hours.toString().padStart(2, '0')
+  const mm = minutes.toString().padStart(2, '0')
+  const ss = secs.toString().padStart(2, '0')
+
+  return `${hh}:${mm}:${ss}`
+}
+
 function getModeLabel(mode: Mode) {
   switch (mode) {
     case 'focus':
@@ -79,6 +92,7 @@ function App() {
   const [cyclesBeforeLongBreak, setCyclesBeforeLongBreak] = useState(4)
   const [isEditingDuration, setIsEditingDuration] = useState(false)
   const [pendingMinutes, setPendingMinutes] = useState('')
+  const [totalFocusSeconds, setTotalFocusSeconds] = useState(0)
 
   // Tick every second while running
   useEffect(() => {
@@ -87,10 +101,13 @@ function App() {
 
     const id = setInterval(() => {
       setSecondsLeft(prev => prev - 1)
+      setTotalFocusSeconds(prev =>
+        mode === 'focus' ? prev + 1 : prev,
+      )
     }, 1000)
 
     return () => clearInterval(id)
-  }, [isRunning, secondsLeft])
+  }, [isRunning, secondsLeft, mode])
 
   // When timer hits zero, advance to the next mode
   useEffect(() => {
@@ -157,8 +174,8 @@ function App() {
     setIsRunning(true)
   }
 
-  const handleResetFocusCount = () => {
-    setCompletedFocusSessions(0)
+  const handleResetTotalFocus = () => {
+    setTotalFocusSeconds(0)
   }
 
   const applyPreset = (preset: Preset) => {
@@ -354,20 +371,6 @@ function App() {
             </button>
           </div>
 
-          <div className="focus-counter">
-            <span className="focus-counter-label">
-              Focus blocks completed: <strong>{completedFocusSessions}</strong>
-            </span>
-            <button
-              type="button"
-              className="focus-counter-reset"
-              onClick={handleResetFocusCount}
-              disabled={completedFocusSessions === 0}
-            >
-              Reset count
-            </button>
-          </div>
-
           <div className="presets">
             <span className="presets-label">
               Presets&nbsp;
@@ -384,6 +387,26 @@ function App() {
                   {preset.label}
                 </button>
               ))}
+            </div>
+          </div>
+        </section>
+        <section className="metrics-card">
+          <div className="session-stats">
+            <div className="session-stat">
+              <span className="session-stat-label">Total focus time</span>
+              <span className="session-stat-value">
+                {formatTotalFocus(totalFocusSeconds)}
+              </span>
+            </div>
+            <div className="session-actions">
+              <button
+                type="button"
+                className="session-stats-reset"
+                onClick={handleResetTotalFocus}
+                disabled={totalFocusSeconds === 0}
+              >
+                Reset
+              </button>
             </div>
           </div>
         </section>
